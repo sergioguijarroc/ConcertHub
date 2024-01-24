@@ -22,6 +22,9 @@ class Ubicacion(models.Model):
     def __str__(self):
         return self.nombre
 
+    class Meta:
+        verbose_name_plural = "Ubicaciones"
+
 
 class Concierto(models.Model):
     nombre = models.CharField(max_length=255)
@@ -53,3 +56,6 @@ class Notificacion(models.Model):
 
     def __str__(self):
         return f"Notificación para {self.cliente_notificacion}: {self.mensaje}"
+
+    class Meta:
+        verbose_name_plural = "Notificaciones"
