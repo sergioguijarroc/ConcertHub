@@ -1,0 +1,19 @@
+{%extends 'concerts_app/base.html'%}
+{%block title%}
+    Lista de conciertos
+{%endblock%}
+{%block content%}
+<div class="row">
+    <div class="col">
+        {%for concierto in concierto_list%}
+        <h2>{{concierto.nombre}}</h2>
+        <ul>
+            <li>Artista:{{concierto.artista_concierto}}</li>
+            <li>Fecha:{{concierto.fecha}}</li>
+            <li>Precio:{{concierto.precio_entrada}}€</li>
+            <li>Tickets disponibles:{{concierto.boletos_disponibles}}</li>
+        </ul>
+        {%endfor%}
+    </div>
+</div>
+{%endblock%}
