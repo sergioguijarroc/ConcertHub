@@ -18,4 +18,4 @@ class Reserva(models.Model):
     total = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return f"{self.cliente} - {self.concierto} - {self.cantidad_boletos}"
+        return f"{self.cliente} - {self.concierto} - {self.cantidad_tickets}"
