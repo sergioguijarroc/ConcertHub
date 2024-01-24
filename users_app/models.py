@@ -2,19 +2,31 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 
-# Create your models here.
-
-
-class Cliente(AbstractUser):
-    edad = models.PositiveIntegerField()
+class Usuario(AbstractUser):
     telefono = models.CharField(max_length=255)
+
+
+class Cliente(Usuario):
+    edad = models.PositiveIntegerField(null=True, blank=True)
     direccion = models.TextField()
 
-    # Añadir un campo de dinero gastado, cuando sea más de X, ponerle en un tier bronce,plata,oro y que tengan descuentos.
     def __str__(self):
-        return f"{self.nombre} {self.apellido}"
+        return f"{self.first_name} {self.last_name}"
+
+    class Meta:
+        verbose_name_plural = "Clientes"
 
 
-class Staff(AbstractUser):
-    email = models.EmailField(max_length=255)
-    telefono = models.CharField(max_length=255)
+class Staff(Usuario):
+    funcion = models.TextField()
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Establecer staff_status en True al inicializar una instancia de Staff
+        self.is_staff = True
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
+    class Meta:
+        verbose_name_plural = "Staffs"

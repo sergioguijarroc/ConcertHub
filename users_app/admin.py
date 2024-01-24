@@ -1,21 +1,18 @@
 from django.contrib import admin
-
-# Register your models here.
-from django.contrib import admin
-from .models import Cliente
 from django.contrib.auth.admin import UserAdmin
+from .models import Cliente, Staff
 
 
-# Register your models here.
-class CustomUserAdmin(UserAdmin):
+class CustomCliente(UserAdmin):
     model = Cliente
     fieldsets = UserAdmin.fieldsets + (
         (
             "Campos adicionales",
             {
                 "fields": (
-                    "vip",
-                    "saldo",
+                    "edad",
+                    "direccion",
+                    "telefono",
                 )
             },
         ),
@@ -24,14 +21,43 @@ class CustomUserAdmin(UserAdmin):
     add_fieldsets = UserAdmin.add_fieldsets + (
         (
             "Campos adicionales",
+            {"fields": ("direccion", "edad", "telefono")},
+        ),
+    )
+
+    def save_model(self, request, obj, form, change):
+        # Establecer staff_status en False para clientes
+        obj.staff_status = False
+        super().save_model(request, obj, form, change)
+
+
+class CustomStaff(UserAdmin):
+    model = Staff
+    fieldsets = UserAdmin.fieldsets + (
+        (
+            "Campos adicionales",
+            {"fields": ("funcion", "telefono")},
+        ),
+    )
+    # Con esto te saldra al crear un nuevo usuario desde admin los campos
+    add_fieldsets = UserAdmin.add_fieldsets + (
+        (
+            "Campos adicionales",
             {
                 "fields": (
-                    "vip",
-                    "saldo",
+                    "funcion",
+                    "telefono",
                 )
             },
         ),
     )
 
+    def save_model(self, request, obj, form, change):
+        # Establecer staff_status en True solo si es un Staff nuevo
+        if not change:
+            obj.staff_status = True
+        super().save_model(request, obj, form, change)
 
-admin.site.register(Cliente, CustomUserAdmin)
+
+admin.site.register(Cliente, CustomCliente)
+admin.site.register(Staff, CustomStaff)

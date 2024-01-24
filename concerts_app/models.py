@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import AbstractUser
+from users_app.models import Cliente
 
 
 # Create your models here.
@@ -31,36 +32,24 @@ class Concierto(models.Model):
     boletos_disponibles = models.PositiveIntegerField()
 
     def __str__(self):
-        return f"{self.nombre} - {self.artista} - {self.fecha}"
+        return f"{self.nombre} - {self.artista_concierto} - {self.fecha}"
 
 
 class Review(models.Model):
     concierto = models.ForeignKey(Concierto, on_delete=models.CASCADE)
-    cliente = models.ForeignKey("Cliente", on_delete=models.CASCADE)
+    cliente_review = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     calificacion = models.PositiveIntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(5)]
     )
     comentario = models.TextField()
 
     def __str__(self):
-        return f"{self.cliente} - {self.concierto} - Calificación: {self.calificacion}"
+        return f"{self.cliente_review} - {self.concierto} - Calificación: {self.calificacion}"
 
 
 class Notificacion(models.Model):
-    cliente = models.ForeignKey("Cliente", on_delete=models.CASCADE)
+    cliente_notificacion = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     mensaje = models.TextField()
 
     def __str__(self):
-        return f"Notificación para {self.cliente}: {self.mensaje}"
-
-
-class Cliente(AbstractUser):
-    nombre = models.CharField(max_length=255)
-    apellido = models.CharField(max_length=255)
-    edad = models.PositiveIntegerField()
-    email = models.EmailField(max_length=255)
-    telefono = models.CharField(max_length=255)
-    direccion = models.TextField()
-
-    def __str__(self):
-        return f"{self.nombre} {self.apellido}"
+        return f"Notificación para {self.cliente_notificacion}: {self.mensaje}"

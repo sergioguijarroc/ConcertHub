@@ -38,8 +38,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "concerts_app",
-    "core_app",
-    "reviews_app",
     "tickets_app",
     "users_app",
 ]
