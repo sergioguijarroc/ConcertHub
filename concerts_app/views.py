@@ -1,12 +1,22 @@
 from django.shortcuts import render
-from django.views.generic import CreateView, ListView, DetailView
+from django.urls import reverse_lazy
+from django.views.generic import (
+    CreateView,
+    ListView,
+    DetailView,
+    UpdateView,
+    DeleteView,
+)
 from .models import Concierto
 
 # Create your views here.
 
 
 def index(request):
-    return render(request, "concerts_app/index.html")
+    return render(request, "concerts_app/panelControl.html")
+
+
+# Usuarios normales
 
 
 class ConciertoListView(ListView):
@@ -15,9 +25,23 @@ class ConciertoListView(ListView):
 
 class ConciertoDetailView(DetailView):
     model = Concierto
-    template_name = "TEMPLATE_NAME"
 
 
+# Staff
 class ConciertoCreateView(CreateView):
     model = Concierto
-    template_name = "TEMPLATE_NAME"
+    fields = "__all__"
+    success_url = reverse_lazy("concierto_list")
+    template_name = "concerts_app/concierto_create.html"
+
+
+class ConciertoDeleteView(DeleteView):
+    model = Concierto
+    success_url = reverse_lazy("concierto_list")
+
+
+class ConciertoUpdateView(UpdateView):
+    model = Concierto
+    fields = "__all__"
+    success_url = reverse_lazy("concierto_list")
+    template_name = "concerts_app/concierto_update.html"

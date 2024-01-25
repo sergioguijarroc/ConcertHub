@@ -11,8 +11,11 @@
             <li>Artista:{{concierto.artista_concierto}}</li>
             <li>Fecha:{{concierto.fecha}}</li>
             <li>Precio:{{concierto.precio_entrada}}€</li>
-            <li>Tickets disponibles:{{concierto.boletos_disponibles}}</li>
+            <li><a href="{%url 'concierto_detail' pk=concierto.pk%}">Enlace para más detalles</a> </li>
+            <li><a href="{%url 'concierto_delete' pk=concierto.pk%}">Borrar</a></li>
+            <li><a href="{%url 'concierto_update' pk=concierto.pk%}"></a></li>
         </ul>
+        <a href="{%url 'concierto_create' %}">Crear un concierto</a>
         {%endfor%}
     </div>
 </div>

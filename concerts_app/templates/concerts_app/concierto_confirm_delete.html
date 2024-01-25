@@ -1,0 +1,16 @@
+{%extends 'concerts_app/base.html'%}
+{%block title%}
+    Lista de conciertos
+{%endblock%}
+{%block content%}
+<div class="row">
+    <div class="col">
+        <form action="" method="post">{% csrf_token %}
+            <p>
+                Estás seguro de que quieres borrar el concierto {{object.nombre}}?
+                    </p>
+            <input type="submit" value="Confirmar">
+        </form>
+    </div>
+</div>
+{%endblock%}

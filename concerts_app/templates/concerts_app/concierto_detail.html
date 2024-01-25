@@ -1,0 +1,18 @@
+{%extends 'concerts_app/base.html'%}
+{%block title%}
+    Lista de conciertos
+{%endblock%}
+{%block content%}
+<div class="row">
+    <div class="col">
+        <h2>Detalles del concierto de {{concierto.nombre}}</h2>
+        <ul>
+            <li>Tickets disponibles:{{concierto.boletos_disponibles}}</li>
+            <li>Fecha:{{concierto.fecha}}</li>
+            <li>Precio de entrada:{{concierto.precio_entrada}}</li>
+            <li>Artista:{{concierto.artista_concierto}}</li>
+            <li>Ubicacion:{{concierto.ubicacion_concierto}}</li>
+            <li><a href="{%url 'concierto_update' concierto.pk%}">Editar</a></li>
+        </ul>
+</div>
+{%endblock%}
