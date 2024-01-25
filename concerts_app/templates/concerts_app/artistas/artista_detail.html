@@ -1,0 +1,24 @@
+{%extends 'concerts_app/base.html'%}
+{%block title%}
+Lista de conciertos
+{%endblock%}
+{%block content%}
+<div class="row">
+    <div class="col">
+        <h2>Detalles del concierto de {{artista.nombre}}</h2>
+        <ul>
+            <li>
+                <p>Género: {{artista.genero}}</p>
+            </li>
+            <li>
+                <p>Descripción: {{artista.descripcion}}</p>
+            </li>
+            <li>
+                <p>Foto: {{artista.foto}}</p>
+            </li>
+
+            <li><a href="{%url 'artista_delete' artista.pk%}">Eliminar</a></li>
+            <li><a href="{%url 'artista_update' artista.pk%}">Editar</a></li>
+        </ul>
+    </div>
+    {%endblock%}
