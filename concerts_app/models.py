@@ -9,6 +9,7 @@ class Artista(models.Model):
     nombre = models.CharField(max_length=255)
     genero = models.CharField(max_length=100)
     descripcion = models.TextField()
+    foto = models.ImageField(upload_to="artistas", null=True, blank=True)
 
     def __str__(self):
         return self.nombre
@@ -33,6 +34,8 @@ class Concierto(models.Model):
     fecha = models.DateTimeField()
     precio_entrada = models.DecimalField(max_digits=10, decimal_places=2)
     boletos_disponibles = models.PositiveIntegerField()
+    descripcion = models.TextField()
+    foto = models.ImageField(upload_to="conciertos", null=True, blank=True)
 
     def __str__(self):
         return f"{self.nombre} - {self.artista_concierto} - {self.fecha}"
