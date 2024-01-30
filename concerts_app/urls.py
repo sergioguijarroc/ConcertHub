@@ -20,19 +20,39 @@ from django.contrib.auth.decorators import login_required
 urlpatterns = [
     path("", ConciertoListView.as_view(), name="concierto_list"),
     path("detail/<int:pk>", ConciertoDetailView.as_view(), name="concierto_detail"),
-    path("create/", ConciertoCreateView.as_view(), name="concierto_create"),
-    path("delete/<int:pk>", ConciertoDeleteView.as_view(), name="concierto_delete"),
-    path("update/<int:pk>", ConciertoUpdateView.as_view(), name="concierto_update"),
+    path(
+        "create/",
+        staff_member_required(ConciertoCreateView.as_view()),
+        name="concierto_create",
+    ),
+    path(
+        "delete/<int:pk>",
+        staff_member_required(ConciertoDeleteView.as_view()),
+        name="concierto_delete",
+    ),
+    path(
+        "update/<int:pk>",
+        staff_member_required(ConciertoUpdateView.as_view()),
+        name="concierto_update",
+    ),
     path("artistas/", ArtistaListView.as_view(), name="artista_list"),
     path(
         "artistas/detail/<int:pk>", ArtistaDetailView.as_view(), name="artista_detail"
     ),
-    path("artistas/create/", ArtistaCreateView.as_view(), name="artista_create"),
     path(
-        "artistas/delete/<int:pk>", ArtistaDeleteView.as_view(), name="artista_delete"
+        "artistas/create/",
+        staff_member_required(ArtistaCreateView.as_view()),
+        name="artista_create",
     ),
     path(
-        "artistas/update/<int:pk>", ArtistaUpdateView.as_view(), name="artista_update"
+        "artistas/delete/<int:pk>",
+        staff_member_required(ArtistaDeleteView.as_view()),
+        name="artista_delete",
+    ),
+    path(
+        "artistas/update/<int:pk>",
+        staff_member_required(ArtistaUpdateView.as_view()),
+        name="artista_update",
     ),
 ]
 
