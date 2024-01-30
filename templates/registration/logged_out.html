@@ -1,0 +1,6 @@
+{% extends "concerts_app/base.html" %}
+{% block title %}Logout{% endblock %}
+{% block content %}
+    <h2>Sesión cerrada</h2>
+    <p><a href="{% url 'login' %}">Iniciar sesión</a> de nuevo o vuelve al <a href="{%url 'concierto_list'%}">Home</a></p>
+{% endblock %}
