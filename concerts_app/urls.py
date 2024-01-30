@@ -8,6 +8,11 @@ from .views import (
     ConciertoDetailView,
     ConciertoDeleteView,
     ConciertoUpdateView,
+    ArtistaListView,
+    ArtistaCreateView,
+    ArtistaDetailView,
+    ArtistaDeleteView,
+    ArtistaUpdateView,
 )
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
@@ -15,21 +20,9 @@ from django.contrib.auth.decorators import login_required
 urlpatterns = [
     path("", ConciertoListView.as_view(), name="concierto_list"),
     path("detail/<int:pk>", ConciertoDetailView.as_view(), name="concierto_detail"),
-    path(
-        "create/",
-        staff_member_required(login_required(ConciertoCreateView.as_view())),
-        name="concierto_create",
-    ),
-    path(
-        "delete/<int:pk>",
-        staff_member_required(login_required(ConciertoDeleteView.as_view())),
-        name="concierto_delete",
-    ),
-    path(
-        "update/<int:pk>",
-        staff_member_required(login_required(ConciertoUpdateView.as_view())),
-        name="concierto_update",
-    ),
+    path("create/", ConciertoCreateView.as_view(), name="concierto_create"),
+    path("delete/<int:pk>", ConciertoDeleteView.as_view(), name="concierto_delete"),
+    path("update/<int:pk>", ConciertoUpdateView.as_view(), name="concierto_update"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

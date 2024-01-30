@@ -8,12 +8,12 @@
         {%for concierto in concierto_list%}
         <h2>{{concierto.nombre}}</h2>
         <ul>
-            <li>Artista:{{concierto.artista_concierto}}</li>
-            <li>Fecha:{{concierto.fecha}}</li>
+            <li>Artista:{{artista.nombre}}</li>
+            <li>Foto:{{artista.foto}}</li>
             <li>Precio:{{concierto.precio_entrada}}€</li>
-            <li><a href="{%url 'concierto_detail' pk=concierto.pk%}">Enlace para más detalles</a> </li>
-            <li><a href="{%url 'concierto_delete' pk=concierto.pk%}">Borrar</a></li>
-            <li><a href="{%url 'concierto_update' pk=concierto.pk%}"></a></li>
+            <li><a href="{%url 'artista_detail' pk=artista.pk%}">Enlace para más detalles</a> </li>
+            <li><a href="{%url 'artista_delete' pk=artista.pk%}">Borrar</a></li>
+            <li><a href="{%url 'artista_update' pk=artista.pk%}"></a></li>
         </ul>
         
         {%endfor%}

@@ -27,7 +27,7 @@ class ConciertoListView(ListView):
 
 class ConciertoDetailView(DetailView):
     model = Concierto
-    template_name = "concerts_app/conciertos/concierto_create.html"
+    template_name = "concerts_app/conciertos/concierto_detail.html"
 
 
 # Staff
@@ -58,10 +58,12 @@ class ConciertoUpdateView(UpdateView):
 # Usuarios normales
 class ArtistaListView(ListView):
     model = Artista
+    template_name = "concerts_app/artistas/artista_list.html"
 
 
 class ArtistaDetailView(DetailView):
     model = Artista
+    template_name = "concerts_app/artistas/artista_detail.html"
 
 
 # Staff
@@ -69,12 +71,13 @@ class ArtistaCreateView(CreateView):
     model = Artista
     fields = "__all__"
     success_url = reverse_lazy("concierto_list")
-    template_name = "concerts_app/artista_create.html"
+    template_name = "concerts_app/artistas/artista_create.html"
 
 
 class ArtistaDeleteView(DeleteView):
     model = Artista
     success_url = reverse_lazy("artista_list")
+    template_name = "concerts_app/artistas/artista_confirm_delete.html"
 
 
 class ArtistaUpdateView(UpdateView):
@@ -82,6 +85,7 @@ class ArtistaUpdateView(UpdateView):
     fields = "__all__"
     success_url = reverse_lazy("concierto_list")
     template_name = "concerts_app/artista_update.html"
+    template_name = "concerts_app/artistas/artista_update.html"
 
 
 # endregion
