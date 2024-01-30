@@ -23,6 +23,17 @@ urlpatterns = [
     path("create/", ConciertoCreateView.as_view(), name="concierto_create"),
     path("delete/<int:pk>", ConciertoDeleteView.as_view(), name="concierto_delete"),
     path("update/<int:pk>", ConciertoUpdateView.as_view(), name="concierto_update"),
+    path("artistas/", ArtistaListView.as_view(), name="artista_list"),
+    path(
+        "artistas/detail/<int:pk>", ArtistaDetailView.as_view(), name="artista_detail"
+    ),
+    path("artistas/create/", ArtistaCreateView.as_view(), name="artista_create"),
+    path(
+        "artistas/delete/<int:pk>", ArtistaDeleteView.as_view(), name="artista_delete"
+    ),
+    path(
+        "artistas/update/<int:pk>", ArtistaUpdateView.as_view(), name="artista_update"
+    ),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
