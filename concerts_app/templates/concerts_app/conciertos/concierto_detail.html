@@ -17,6 +17,7 @@
                 <li>Comprar entradas: <a href="{%url 'comprar_entradas' concierto.pk%}">Click aquí para comprar entradas</a></li>
             {%else%}
                 <li>Entradas agotadas...</li>
+            {%endif%}
             {% if user.is_staff %}
             <li><a href="{%url 'concierto_update' concierto.pk%}">Editar</a></li>
             {%endif%}

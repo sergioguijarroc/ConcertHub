@@ -16,7 +16,3 @@ class ReservaForm(forms.ModelForm):
                 attrs={"class": "form-control", "min": 0, "max": 5}
             ),
         }
-
-
-class ComprobarVenta(forms.Form):
-    concierto

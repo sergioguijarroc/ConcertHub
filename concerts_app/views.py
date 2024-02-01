@@ -1,3 +1,5 @@
+from typing import Any
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import (
@@ -44,6 +46,9 @@ class ConciertoCreateView(CreateView):
     ]
     success_url = reverse_lazy("concierto_list")
     template_name = "concerts_app/conciertos/concierto_create.html"
+
+    def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
+        return super().post(request, *args, **kwargs)
 
 
 class ConciertoDeleteView(DeleteView):

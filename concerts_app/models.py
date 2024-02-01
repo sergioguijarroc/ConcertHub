@@ -41,12 +41,12 @@ class Concierto(models.Model):
     def __str__(self):
         return f"{self.nombre} - {self.artista_concierto} - {self.fecha}"
 
-    def save(self, *args, **kwargs):
+    def entradasPorDefecto(self):
         # Verificamos si ya existe una ubicación asignada al concierto
         if self.ubicacion_concierto:
             # Si hay una ubicación, actualizamos boletos_disponibles con la capacidad de esa ubicación
             self.boletos_disponibles = self.ubicacion_concierto.capacidad
-        super().save(*args, **kwargs)
+            self.save()
 
 
 class Review(models.Model):

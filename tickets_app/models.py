@@ -19,7 +19,7 @@ class Reserva(models.Model):
     importe = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return f"{self.cliente} - {self.concierto} - {self.cantidad_tickets}"
+        return f"{self.cliente_reserva} - {self.concierto_reserva} - {self.cantidad_tickets}"
 
 
 """
