@@ -33,7 +33,15 @@ class ConciertoDetailView(DetailView):
 # Staff
 class ConciertoCreateView(CreateView):
     model = Concierto
-    fields = "__all__"
+    fields = [  # Le paso todos menos boletos_disponibles porque se calcula en el modelo
+        "nombre",
+        "artista_concierto",
+        "ubicacion_concierto",
+        "fecha",
+        "precio_entrada",
+        "descripcion",
+        "foto",
+    ]
     success_url = reverse_lazy("concierto_list")
     template_name = "concerts_app/conciertos/concierto_create.html"
 
@@ -46,7 +54,15 @@ class ConciertoDeleteView(DeleteView):
 
 class ConciertoUpdateView(UpdateView):
     model = Concierto
-    fields = "__all__"
+    fields = [
+        "nombre",
+        "artista_concierto",
+        "ubicacion_concierto",
+        "fecha",
+        "precio_entrada",
+        "descripcion",
+        "foto",
+    ]
     success_url = reverse_lazy("concierto_list")
     template_name = "concerts_app/conciertos/concierto_update.html"
 

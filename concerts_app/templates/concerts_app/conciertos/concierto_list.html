@@ -12,12 +12,16 @@
             <li>Fecha:{{concierto.fecha}}</li>
             <li>Precio:{{concierto.precio_entrada}}€</li>
             <li><a href="{%url 'concierto_detail' pk=concierto.pk%}">Enlace para más detalles</a> </li>
+            {%if user.is_staff%}
             <li><a href="{%url 'concierto_delete' pk=concierto.pk%}">Borrar</a></li>
             <li><a href="{%url 'concierto_update' pk=concierto.pk%}"></a></li>
+            {%endif%}
         </ul>
         
         {%endfor%}
+        {% if user.is_staff %}
         <a href="{%url 'concierto_create' %}">Crear un concierto</a>
+        {%endif%}
     </div>
 </div>
 {%endblock%}

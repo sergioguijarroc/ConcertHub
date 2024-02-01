@@ -1,3 +1,4 @@
+from typing import Any
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import AbstractUser
@@ -39,6 +40,13 @@ class Concierto(models.Model):
 
     def __str__(self):
         return f"{self.nombre} - {self.artista_concierto} - {self.fecha}"
+
+    def save(self, *args, **kwargs):
+        # Verificamos si ya existe una ubicación asignada al concierto
+        if self.ubicacion_concierto:
+            # Si hay una ubicación, actualizamos boletos_disponibles con la capacidad de esa ubicación
+            self.boletos_disponibles = self.ubicacion_concierto.capacidad
+        super().save(*args, **kwargs)
 
 
 class Review(models.Model):

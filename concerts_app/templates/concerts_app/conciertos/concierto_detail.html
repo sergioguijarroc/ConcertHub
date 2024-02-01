@@ -11,8 +11,16 @@
             <li>Fecha:{{concierto.fecha}}</li>
             <li>Precio de entrada:{{concierto.precio_entrada}}</li>
             <li>Artista:{{concierto.artista_concierto}}<a href="{%url 'artista_detail' concierto.artista_concierto.pk%}">Más info del artista</a></li>
-            <li>Ubicacion:{{concierto.ubicacion_concierto}}</li>
+            <li>Ubicación:{{concierto.ubicacion_concierto}}</li>
+            {%if concierto.boletos_disponibles > 0%}
+
+                <li>Comprar entradas: <a href="{%url 'comprar_entradas' concierto.pk%}">Click aquí para comprar entradas</a></li>
+            {%else%}
+                <li>Entradas agotadas...</li>
+            {% if user.is_staff %}
             <li><a href="{%url 'concierto_update' concierto.pk%}">Editar</a></li>
+            {%endif%}
+            
         </ul>
 </div>
 {%endblock%}

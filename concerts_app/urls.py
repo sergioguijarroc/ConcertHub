@@ -17,6 +17,7 @@ from .views import (
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 
+
 urlpatterns = [
     path("", ConciertoListView.as_view(), name="concierto_list"),
     path("detail/<int:pk>", ConciertoDetailView.as_view(), name="concierto_detail"),

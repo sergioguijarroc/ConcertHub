@@ -14,11 +14,12 @@ Lista de conciertos
                 <p>Descripción: {{artista.descripcion}}</p>
             </li>
             <li>
-                <p>Foto: {{artista.foto}}</p>
+                <img class = "w-50"src="{{artista.foto.url}}" alt="">
             </li>
-
+            {%if user.is_staff%}
             <li><a href="{%url 'artista_delete' artista.pk%}">Eliminar</a></li>
             <li><a href="{%url 'artista_update' artista.pk%}">Editar</a></li>
+            {%endif%}
         </ul>
     </div>
     {%endblock%}

@@ -1,0 +1,16 @@
+{%extends 'concerts_app/base.html'%}
+{%block title%}
+    Confirmación de Compra
+{%endblock%}
+{%block content%}
+<div class="row">
+    <div class="col">
+        <h2>{{num_boletos}} entradas para el concierto {{concierto.nombre}}</h2>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <p>Vas a comprar {{num_boletos}} por un valor de {{precio_boletos}}, ¿Estás seguro?</p>
+            <input type="submit" value="Comprar">
+        </form>
+    </div>
+</div>
+{%endblock%}

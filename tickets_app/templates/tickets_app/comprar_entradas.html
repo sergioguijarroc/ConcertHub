@@ -1,0 +1,17 @@
+{%extends 'concerts_app/base.html'%}
+{%block title%}
+    Comprar Entradas
+{%endblock%}
+{%block content%}
+<div class="row">
+    <div class="col">
+        <h2>Comprar entradas para {{concierto.nombre}} por {{concierto.precio_entrada}}</h2>
+        <p>Tickets disponibles: {{concierto.boletos_disponibles}}</p>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{formulario.as_p}}
+            <input type="submit" value="Comprar">
+        </form>
+    </div>
+</div>
+{%endblock%}
