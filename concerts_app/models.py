@@ -34,19 +34,12 @@ class Concierto(models.Model):
     ubicacion_concierto = models.ForeignKey(Ubicacion, on_delete=models.CASCADE)
     fecha = models.DateTimeField()
     precio_entrada = models.DecimalField(max_digits=10, decimal_places=2)
-    boletos_disponibles = models.PositiveIntegerField()
+    boletos_disponibles = models.PositiveIntegerField(default=0)
     descripcion = models.TextField()
     foto = models.ImageField(upload_to="conciertos", null=True, blank=True)
 
     def __str__(self):
         return f"{self.nombre} - {self.artista_concierto} - {self.fecha}"
-
-    def entradasPorDefecto(self):
-        # Verificamos si ya existe una ubicación asignada al concierto
-        if self.ubicacion_concierto:
-            # Si hay una ubicación, actualizamos boletos_disponibles con la capacidad de esa ubicación
-            self.boletos_disponibles = self.ubicacion_concierto.capacidad
-            self.save()
 
 
 class Review(models.Model):

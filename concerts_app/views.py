@@ -10,6 +10,7 @@ from django.views.generic import (
     DeleteView,
 )
 from .models import Concierto, Artista
+from .forms import ConciertoForm
 
 # Create your views here.
 
@@ -35,20 +36,21 @@ class ConciertoDetailView(DetailView):
 # Staff
 class ConciertoCreateView(CreateView):
     model = Concierto
-    fields = [  # Le paso todos menos boletos_disponibles porque se calcula en el modelo
-        "nombre",
-        "artista_concierto",
-        "ubicacion_concierto",
-        "fecha",
-        "precio_entrada",
-        "descripcion",
-        "foto",
-    ]
+    form_class = ConciertoForm
     success_url = reverse_lazy("concierto_list")
     template_name = "concerts_app/conciertos/concierto_create.html"
 
-    def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
-        return super().post(request, *args, **kwargs)
+    def form_valid(
+        self, form
+    ):  # Se sobreescribe el método para que se pueda modificar el número de boletos disponibles
+        concierto = form.save(
+            commit=False
+        )  # Con esto evitamos que se guarde el concierto hasta que se modifique el número de boletos disponibles, pero me lo traigo a la vista para modificarlo
+        concierto.boletos_disponibles = concierto.ubicacion_concierto.capacidad
+        concierto.save()
+        return super().form_valid(
+            form
+        )  # Se guarda el concierto personalizado con el número de boletos disponibles modificado,se llama al método de la clase padre para que guarde el concierto
 
 
 class ConciertoDeleteView(DeleteView):
