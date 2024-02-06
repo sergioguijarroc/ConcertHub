@@ -1,0 +1,21 @@
+{%extends 'concerts_app/base.html'%}
+{%block title%}
+    Lista de Reservas del usuario
+{%endblock%}
+{%block content%}
+<div class="row">
+    <div class="col">
+        <h2>Todas las reservas de {{request.user}}</h2>
+        {%for reserva in reservas%}
+        <h2>{{reserva.concierto_reserva.nombre}}</h2>
+        <ul>
+            <li>Fecha:{{reserva.concierto_reserva.fecha}}</li>
+            <li>Precio:{{reserva.concierto_reserva..precio_entrada}}€</li>
+            <li>Número de tickets comprados: {{reserva.cantidad_tickets}}</li>
+            <li>Total: {{reserva.importe}}</li>
+            <li><a href="{%url 'concierto_detail' pk=reserva.concierto_reserva.pk%}">Enlace para más detalles del concierto</a> </li>
+            
+        </ul>
+    </div>
+</div>
+{%endblock%}

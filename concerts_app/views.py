@@ -22,6 +22,11 @@ def index(request):
 # region Conciertos
 
 
+class ListarConciertosUsuario(ListView):
+    model = Concierto
+    template_name = "concerts_app/"
+
+
 # Usuarios normales
 class ConciertoListView(ListView):
     model = Concierto
