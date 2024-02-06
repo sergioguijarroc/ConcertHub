@@ -22,6 +22,9 @@
         {% if user.is_staff %}
         <a href="{%url 'concierto_create' %}">Crear un concierto</a>
         {%endif%}
+        {%if user%}
+        <a href="{% url 'listar_reservas_usuario' %}">Reservas del ususario</a>
+        {%endif%}
     </div>
 </div>
 {%endblock%}

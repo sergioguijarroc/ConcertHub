@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
     path(
-        "reservas",
+        "reservas/",
         login_required(ListarReservasUsuario.as_view()),
         name="listar_reservas_usuario",
     ),
