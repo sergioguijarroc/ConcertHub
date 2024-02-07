@@ -67,7 +67,7 @@ class ConfirmacionCompra(View):
 
         reservaExistente = Reserva.objects.filter(
             concierto_reserva=concierto, cliente_reserva=usuario
-        )[0]
+        ).first()
         if reservaExistente:
             reservaExistente.actualizarReservaYaExistente(unidades, importe)
         else:
