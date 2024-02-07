@@ -8,6 +8,7 @@ from .views import (
     ConciertoDetailView,
     ConciertoDeleteView,
     ConciertoUpdateView,
+    ConciertoReview,
     ArtistaListView,
     ArtistaCreateView,
     ArtistaDetailView,
@@ -35,6 +36,11 @@ urlpatterns = [
         "update/<int:pk>",
         staff_member_required(ConciertoUpdateView.as_view()),
         name="concierto_update",
+    ),
+    path(
+        "review/<int:pk>",
+        login_required(ConciertoReview.as_view()),
+        name="concierto_review",
     ),
     path("artistas/", ArtistaListView.as_view(), name="artista_list"),
     path(

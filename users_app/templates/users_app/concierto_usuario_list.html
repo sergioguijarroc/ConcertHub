@@ -14,7 +14,8 @@
             <li>Número de tickets comprados: {{reserva.cantidad_tickets}}</li>
             <li>Total: {{reserva.importe}}</li>
             <li><a href="{%url 'concierto_detail' pk=reserva.concierto_reserva.pk%}">Enlace para más detalles del concierto</a> </li>
-        
+            <!--Aquí debería de haber un if el concierto ya ha pasado, deja tu review. Pero no podría enseñarlo-->
+            <li>Deja <a href="{%url 'concierto_review' pk=reserva.concierto_reserva.pk%}">aquí</a> tu opinión de qué te ha parecido</li>
         </ul>
         {%endfor%}
     </div>

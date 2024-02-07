@@ -1,7 +1,8 @@
 from typing import Any
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import (
     CreateView,
     ListView,
@@ -77,6 +78,16 @@ class ConciertoUpdateView(UpdateView):
     ]
     success_url = reverse_lazy("concierto_list")
     template_name = "concerts_app/conciertos/concierto_update.html"
+
+
+class ConciertoReview(View):
+    def get(self, request, pk):
+        concierto = get_object_or_404(Concierto, pk=pk)
+        return render(
+            request,
+            "concerts_app/conciertos/concierto_review.html",
+            {"concierto": concierto},
+        )
 
 
 # endregion

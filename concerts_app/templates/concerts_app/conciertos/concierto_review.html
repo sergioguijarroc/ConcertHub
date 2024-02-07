@@ -1,0 +1,19 @@
+{%extends 'concerts_app/base.html'%}
+{%block title%}
+    Review del concierto
+{%endblock%}
+{%block content%}
+<div class="row">
+    <div class="col">
+        <h2>Review del concierto de {{concierto.nombre}}</h2>
+        <ul>
+            <li>Fecha:{{concierto.fecha}}</li>
+            <li>Artista:{{concierto.artista_concierto}}<a href="{%url 'artista_detail' concierto.artista_concierto.pk%}">Más info del artista</a></li>
+            <li>Ubicación:{{concierto.ubicacion_concierto}}</li>
+            {% if user.is_staff %}
+            <li><a href="{%url 'concierto_update' concierto.pk%}">Editar</a></li>
+            {%endif%}
+            
+        </ul>
+</div>
+{%endblock%}
