@@ -60,15 +60,22 @@ class ConfirmacionCompra(View):
         concierto = get_object_or_404(Concierto, pk=pk)
         unidades = kwargs.get("unidades", None)
         usuario = request.user
+        importe = concierto.precio_entrada * unidades
 
         concierto.boletos_disponibles -= unidades
         concierto.save()
 
-        importe = concierto.precio_entrada * unidades
-        Reserva.objects.create(
-            concierto_reserva=concierto,
-            cliente_reserva=usuario,
-            cantidad_tickets=unidades,
-            importe=importe,
-        )
+        reservaExistente = Reserva.objects.filter(
+            concierto_reserva=concierto, cliente_reserva=usuario
+        )[0]
+        if reservaExistente:
+            reservaExistente.actualizarReservaYaExistente(unidades, importe)
+        else:
+            Reserva.objects.create(
+                concierto_reserva=concierto,
+                cliente_reserva=usuario,
+                cantidad_tickets=unidades,
+                importe=importe,
+            )
+
         return redirect("listar_reservas_usuario")

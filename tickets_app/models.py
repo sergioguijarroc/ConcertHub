@@ -18,6 +18,11 @@ class Reserva(models.Model):
     )
     importe = models.DecimalField(max_digits=10, decimal_places=2)
 
+    def actualizarReservaYaExistente(self, unidades, importeNuevo):
+        self.cantidad_tickets += unidades
+        self.importe += importeNuevo
+        self.save()
+
     def __str__(self):
         return f"{self.cliente_reserva} - {self.concierto_reserva} - {self.cantidad_tickets}"
 
