@@ -1,6 +1,6 @@
 from typing import Any
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import (
@@ -12,6 +12,7 @@ from django.views.generic import (
 )
 from .models import Concierto, Artista
 from .forms import ConciertoForm
+from tickets_app.models import Reserva, Valoracion
 
 # Create your views here.
 
@@ -88,6 +89,35 @@ class ConciertoReview(View):
             "concerts_app/conciertos/concierto_review.html",
             {"concierto": concierto},
         )
+
+    def post(self, request, pk):
+        reserva = Reserva.objects.get(pk=pk)
+        concierto = Concierto.objects.get(pk=reserva.concierto_reserva.pk)
+        valoracionUsuario = float(request.POST["valoracion"])
+
+        if (
+            # reserva.cliente_reserva == request.user and
+            valoracionUsuario >= 0
+            and valoracionUsuario <= 10
+        ):
+            if reserva.valoracion_usuario is not None:
+                reserva.valoracion_usuario.actualizar_rating(valoracionUsuario)
+                reserva.valoracion_usuario.save()
+                reserva.save()
+            else:
+                valoracion = Valoracion.objects.create(
+                    reserva_valoracion=reserva,
+                    usuario_valoracion=request.user,
+                    rating=valoracionUsuario,
+                )
+                reserva.valoracion_usuario = valoracion
+                reserva.save()
+                valoracion.save()
+
+            concierto.actualizar_valoracion_media()
+            concierto.save()
+
+        return redirect("listar_reservas_usuario")
 
 
 # endregion

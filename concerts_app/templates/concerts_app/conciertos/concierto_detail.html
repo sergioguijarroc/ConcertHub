@@ -12,6 +12,7 @@
             <li>Precio de entrada:{{concierto.precio_entrada}}</li>
             <li>Artista:{{concierto.artista_concierto}}<a href="{%url 'artista_detail' concierto.artista_concierto.pk%}">Más info del artista</a></li>
             <li>Ubicación:{{concierto.ubicacion_concierto}}</li>
+            <li>Valoración: {{concierto.valoracion_media}}</li>
             {%if concierto.boletos_disponibles > 0%}
 
                 <li>Comprar entradas: <a href="{%url 'comprar_entradas' concierto.pk%}">Click aquí para comprar entradas</a></li>

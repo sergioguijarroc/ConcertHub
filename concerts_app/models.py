@@ -2,7 +2,9 @@ from typing import Any
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import AbstractUser
+from tickets_app.models import Valoracion
 from users_app.models import Cliente
+from django.db.models import Avg
 
 
 # Create your models here.
@@ -37,21 +39,23 @@ class Concierto(models.Model):
     boletos_disponibles = models.PositiveIntegerField(default=0)
     descripcion = models.TextField()
     foto = models.ImageField(upload_to="conciertos", null=True, blank=True)
+    valoracion_media = models.FloatField(blank=True, null=True, default=None)
+
+    def actualizar_valoracion_media(self):
+        # Obtengo todas las valoraciones asociadas al libro
+        reviews = Valoracion.objects.filter(reserva_valoracion__concierto_reserva=self)
+
+        # Calculo el promedio de las valoraciones
+        avg_rating = reviews.aggregate(Avg("rating"))["rating__avg"]
+        # Actualizo la valoración media del libro
+        if avg_rating is not None:
+            self.valoracion_media = avg_rating
+
+        # Guardo el libro actualizado
+        self.save()
 
     def __str__(self):
         return f"{self.nombre} - {self.artista_concierto} - {self.fecha}"
-
-
-class Review(models.Model):
-    concierto = models.ForeignKey(Concierto, on_delete=models.CASCADE)
-    cliente_review = models.ForeignKey(Cliente, on_delete=models.CASCADE)
-    calificacion = models.PositiveIntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(5)]
-    )
-    comentario = models.TextField()
-
-    def __str__(self):
-        return f"{self.cliente_review} - {self.concierto} - Calificación: {self.calificacion}"
 
 
 class Notificacion(models.Model):

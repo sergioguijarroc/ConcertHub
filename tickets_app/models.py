@@ -1,5 +1,4 @@
 from django.db import models
-from concerts_app.models import Concierto
 from users_app.models import Cliente
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
@@ -7,7 +6,9 @@ from django.utils import timezone
 
 # Create your models here.
 class Reserva(models.Model):
-    concierto_reserva = models.ForeignKey(Concierto, on_delete=models.CASCADE)
+    concierto_reserva = models.ForeignKey(
+        "concerts_app.Concierto", on_delete=models.CASCADE
+    )
     cliente_reserva = models.ForeignKey(Cliente, on_delete=models.CASCADE)
 
     cantidad_tickets = models.PositiveIntegerField(
@@ -17,6 +18,9 @@ class Reserva(models.Model):
         ]  # Como máximo puede comprar 5 boletos
     )
     importe = models.DecimalField(max_digits=10, decimal_places=2)
+    valoracion_usuario = models.OneToOneField(
+        "Valoracion", on_delete=models.CASCADE, null=True, blank=True, default=None
+    )
 
     def actualizarReservaYaExistente(self, unidades, importeNuevo):
         self.cantidad_tickets += unidades
@@ -25,6 +29,18 @@ class Reserva(models.Model):
 
     def __str__(self):
         return f"{self.cliente_reserva} - {self.concierto_reserva} - {self.cantidad_tickets}"
+
+
+class Valoracion(models.Model):
+    reserva_valoracion = models.OneToOneField(Reserva, on_delete=models.CASCADE)
+    usuario_valoracion = models.ForeignKey(
+        Cliente,
+        on_delete=models.CASCADE,
+    )
+    rating = models.FloatField(null=True, blank=True, default=None)
+
+    def actualizar_rating(self, rating):
+        self.rating = rating
 
 
 """
