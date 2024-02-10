@@ -11,7 +11,7 @@ from django.views.generic import (
     DeleteView,
 )
 from .models import Concierto, Artista
-from .forms import ConciertoForm
+from .forms import ArtistaForm, ConciertoForm
 from tickets_app.models import Reserva, Valoracion
 
 # Create your views here.
@@ -138,7 +138,7 @@ class ArtistaDetailView(DetailView):
 # Staff
 class ArtistaCreateView(CreateView):
     model = Artista
-    fields = "__all__"
+    form_class = ArtistaForm
     success_url = reverse_lazy("concierto_list")
     template_name = "concerts_app/artistas/artista_create.html"
 
