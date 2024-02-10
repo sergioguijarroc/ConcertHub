@@ -16,7 +16,7 @@
 
 <body>
     <div class="container">
-        <h1 class="text-center my-5">ConcertHub</h1>
+        <h1 class="text-center my-5"><a href="{%url 'concierto_list'%}">ConcertHub</a></h1>
         {% if request.user.is_authenticated %}
         <p>Bienvenido, {{request.user.username}}
             <a href="{%url 'logout' %}">Cerrar Sesión</a>

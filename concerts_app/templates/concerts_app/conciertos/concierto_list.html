@@ -11,19 +11,22 @@
             <li>Artista:{{concierto.artista_concierto}}</li>
             <li>Fecha:{{concierto.fecha}}</li>
             <li>Precio:{{concierto.precio_entrada}}€</li>
-            <li><a href="{%url 'concierto_detail' pk=concierto.pk%}">Enlace para más detalles</a> </li>
+            <li><a href="{%url 'concierto_detail' pk=concierto.pk%}" class="btn btn-primary mb-3">Enlace para más detalles</a> </li>
             {%if user.is_staff%}
-            <li><a href="{%url 'concierto_delete' pk=concierto.pk%}">Borrar</a></li>
-            <li><a href="{%url 'concierto_update' pk=concierto.pk%}"></a></li>
+            <li><a href="{%url 'concierto_delete' pk=concierto.pk%} " class="btn btn-primary mb-3">Borrar</a></li>
+            <li><a href="{%url 'concierto_update' pk=concierto.pk%}" class="btn btn-primary">Editar concierto</a></li>
             {%endif%}
         </ul>
         
         {%endfor%}
         {% if user.is_staff %}
-        <a href="{%url 'concierto_create' %}">Crear un concierto</a>
+        <a href="{% url 'concierto_create' %}" class="btn btn-primary">Añadir Concierto</a>
+        <br>
+        <a href="{%url 'artista_create'%}" class="btn btn-primary my-2">Añadir Artista</a>
         {%endif%}
         {%if user%}
-        <a href="{% url 'listar_reservas_usuario' %}">Reservas del ususario</a>
+        <br>
+        <a href="{% url 'listar_reservas_usuario' %}" class="btn btn-primary">Reservas del ususario</a>
         {%endif%}
     </div>
 </div>

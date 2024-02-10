@@ -77,5 +77,4 @@ class ConfirmacionCompra(View):
                 cantidad_tickets=unidades,
                 importe=importe,
             )
-
         return redirect("listar_reservas_usuario")

@@ -42,6 +42,13 @@ class Valoracion(models.Model):
     def actualizar_rating(self, rating):
         self.rating = rating
 
+    def __str__(self):
+        return f"{self.usuario_valoracion} - {self.reserva_valoracion} - {self.rating}"
+
+    # verbose
+    class Meta:
+        verbose_name_plural = "Valoraciones"
+
 
 """
 class Promocion(models.Model):
