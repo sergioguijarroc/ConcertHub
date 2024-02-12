@@ -14,9 +14,10 @@
             <li>Ubicación:{{concierto.ubicacion_concierto}}</li>
             <li>Valoración: {{concierto.valoracion_media}}</li>
             {%if concierto.boletos_disponibles > 0%}
-            <img src="{{concierto.foto.url}}" alt="">
-
-                <li>Comprar entradas: <a href="{%url 'comprar_entradas' concierto.pk%}">Click aquí para comprar entradas</a></li>
+                {%if concierto.foto%}
+                <img src="{{concierto.foto.url}}" alt="">
+                {%endif%}
+            <li>Comprar entradas: <a href="{%url 'comprar_entradas' concierto.pk%}">Click aquí para comprar entradas</a></li>
             {%else%}
                 <li>Entradas agotadas...</li>
             {%endif%}

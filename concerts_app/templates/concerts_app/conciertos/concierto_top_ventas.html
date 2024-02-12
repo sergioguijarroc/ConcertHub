@@ -1,0 +1,27 @@
+{% extends 'concerts_app/base.html' %}
+{% block title %}
+    Lista de conciertos
+{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col">
+        <h1>Conciertos Más Vendidos</h1>
+        {% if conciertos_top_ventas %}
+            <table class="table">
+                <tr>
+                    <th>Concierto</th><th>Artista</th><th>Número de entradas vendidas</th>
+                </tr>
+                {% for venta in conciertos_top_ventas %}
+                    <tr>
+                        <td>{{ venta.concierto_reserva.nombre }}</td>
+                        <td>{{ venta.concierto_reserva.artista_concierto.nombre }}</td>
+                        <td>{{ venta.sum_compras }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>No hay conciertos aún, estate atento a nuevas fechas</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

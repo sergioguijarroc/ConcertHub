@@ -9,6 +9,7 @@ from .views import (
     ConciertoDeleteView,
     ConciertoUpdateView,
     ConciertoReview,
+    ListarConciertosMasVendidos,
     ArtistaListView,
     ArtistaCreateView,
     ArtistaDetailView,
@@ -60,6 +61,11 @@ urlpatterns = [
         "artistas/update/<int:pk>",
         staff_member_required(ArtistaUpdateView.as_view()),
         name="artista_update",
+    ),
+    path(
+        "conciertos_mas_vendidos/",
+        ListarConciertosMasVendidos.as_view(),
+        name="concierto_top_ventas",
     ),
 ]
 
