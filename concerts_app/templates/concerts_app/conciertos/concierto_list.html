@@ -11,8 +11,9 @@
             <input type="submit" value="Filtrar">
             
         </form>
-        {%for concierto in concierto_list%}
-        <h2>{{concierto.nombre}}</h2>
+        <h2>Próximos conciertos:</h2>
+        {%for concierto in conciertosFuturos%}
+        <h3>{{concierto.nombre}}</h3>
         <ul>
             <li>Artista:{{concierto.artista_concierto}}</li>
             <li>Fecha:{{concierto.fecha}}</li>
@@ -23,10 +24,25 @@
             <li><a href="{%url 'concierto_update' pk=concierto.pk%}" class="btn btn-primary">Editar concierto</a></li>
             {%endif%}
         </ul>
+        {%endfor%}
+
+        {%if user.is_staff%}
+        <h2>(Solo visible para staff)Conciertos pasados:</h2>
+        {%for concierto in conciertosPasados%}
+        <h2>{{concierto.nombre}}</h2>
+        <ul>
+            <li>Artista:{{concierto.artista_concierto}}</li>
+            <li>Fecha:{{concierto.fecha}}</li>
+            <li>Precio:{{concierto.precio_entrada}}€</li>
+            <li><a href="{%url 'concierto_detail' pk=concierto.pk%}" class="btn btn-primary mb-3">Enlace para más detalles</a> </li>
+            <li><a href="{%url 'concierto_delete' pk=concierto.pk%} " class="btn btn-primary mb-3">Borrar</a></li>
+            <li><a href="{%url 'concierto_update' pk=concierto.pk%}" class="btn btn-primary">Editar concierto</a></li>
+        </ul>
 
         
         
         {%endfor%}
+        {%endif%}
         {% if user.is_staff %}
         <a href="{% url 'concierto_create' %}" class="btn btn-primary mt-2">Añadir Concierto</a>
         <br>
@@ -40,4 +56,4 @@
         {%endif%}
     </div>
 </div>
-{%endblock%}
+{% endblock %}

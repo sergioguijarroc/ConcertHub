@@ -1,3 +1,4 @@
+from datetime import date
 from typing import Any
 from django.db.models.query import QuerySet
 from django.http import HttpRequest, HttpResponse
@@ -43,7 +44,15 @@ class ConciertoListView(ListView):
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        context["form"] = self.form_class(self.request.GET)
+        context["form"] = self.form_class(
+            self.request.GET
+        )  # Esto es para que nos venga relleno el formulario
+        context["conciertosFuturos"] = Concierto.objects.filter(
+            fecha__gt=date.today()
+        )  # Estos los verá el usuario y el staff
+        context["conciertosPasados"] = Concierto.objects.filter(
+            fecha__lt=date.today()
+        )  # Estos solo los verá el staff
         return context
 
     def get_queryset(self) -> QuerySet[Any]:
