@@ -1,4 +1,5 @@
 from typing import Any
+from django.db.models.query import QuerySet
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
@@ -11,7 +12,7 @@ from django.views.generic import (
     DeleteView,
 )
 from .models import Concierto, Artista
-from .forms import ArtistaForm, ConciertoForm
+from .forms import ArtistaForm, CrearConciertoForm, ConciertoFiltroFrom
 from tickets_app.models import Reserva, Valoracion
 from django.db.models import Sum
 
@@ -26,14 +27,40 @@ def index(request):
 
 
 class ListarConciertosUsuario(ListView):
+
     model = Concierto
+    form_class = ConciertoFiltroFrom
     template_name = "concerts_app/"
 
 
 # Usuarios normales
 class ConciertoListView(ListView):
+
     model = Concierto
     template_name = "concerts_app/conciertos/concierto_list.html"
+    form_class = ConciertoFiltroFrom
+    queryset = Concierto.objects.all()
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["form"] = self.form_class(self.request.GET)
+        return context
+
+    def get_queryset(self) -> QuerySet[Any]:
+        form = self.form_class(self.request.GET)
+        if form.is_valid():
+            nombreConcierto = form.cleaned_data["nombreConcierto"]
+            artista = form.cleaned_data["artista"]
+            ubicacion = form.cleaned_data["ubicacion_concierto"]
+
+            if nombreConcierto:
+                self.queryset = self.queryset.filter(nombre__icontains=nombreConcierto)
+            if artista:
+                self.queryset = self.queryset.filter(artista_concierto=artista)
+            if ubicacion:
+                self.queryset = self.queryset.filter(ubicacion_concierto=ubicacion)
+
+        return super().get_queryset()
 
 
 class ConciertoDetailView(DetailView):
@@ -44,7 +71,7 @@ class ConciertoDetailView(DetailView):
 # Staff
 class ConciertoCreateView(CreateView):
     model = Concierto
-    form_class = ConciertoForm
+    form_class = CrearConciertoForm
     success_url = reverse_lazy("concierto_list")
     template_name = "concerts_app/conciertos/concierto_create.html"
 
@@ -69,7 +96,7 @@ class ConciertoDeleteView(DeleteView):
 
 class ConciertoUpdateView(UpdateView):
     model = Concierto
-    form_class = ConciertoForm
+    form_class = CrearConciertoForm
     success_url = reverse_lazy("concierto_list")
     template_name = "concerts_app/conciertos/concierto_update.html"
 

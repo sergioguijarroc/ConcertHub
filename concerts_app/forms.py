@@ -1,8 +1,8 @@
 from django import forms
-from .models import Concierto, Artista
+from .models import Concierto, Artista, Ubicacion
 
 
-class ConciertoForm(forms.ModelForm):
+class CrearConciertoForm(forms.ModelForm):
     class Meta:
         model = Concierto
         fields = [
@@ -45,6 +45,7 @@ class ConciertoForm(forms.ModelForm):
         }
 
 
+# required = False en todos los campos
 class ArtistaForm(forms.ModelForm):
     class Meta:
         model = Artista
@@ -75,3 +76,31 @@ class ArtistaForm(forms.ModelForm):
             ),
             "foto": forms.FileInput(attrs={"class": "form-control"}),
         }
+
+        def __init__(self, *args, **kwargs):
+            super(ArtistaForm, self).__init__(*args, **kwargs)
+            for field_name in self.fields:
+                self.fields[field_name].required = False
+
+
+class ConciertoFiltroFrom(forms.Form):
+
+    nombreConcierto = forms.CharField(
+        required=False,
+        label="Nombre del concierto",
+        widget=forms.TextInput(
+            attrs={"class": "form-control", "placeholder": "Nombre del concierto"}
+        ),
+    )
+    artista = forms.ModelChoiceField(
+        queryset=Artista.objects.all(),
+        required=False,
+        empty_label="Todos los Artistas",
+        widget=forms.Select(attrs={"class": "form-control"}),
+    )
+    ubicacion_concierto = forms.ModelChoiceField(
+        queryset=Ubicacion.objects.all(),
+        required=False,
+        empty_label="Todas las ubicaciones",
+        widget=forms.Select(attrs={"class": "form-control"}),
+    )

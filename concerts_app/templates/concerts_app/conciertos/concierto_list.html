@@ -5,6 +5,12 @@
 {%block content%}
 <div class="row">
     <div class="col">
+        <form action="" method = "GET">
+            {% csrf_token %}
+            {{form.as_p}}
+            <input type="submit" value="Filtrar">
+            
+        </form>
         {%for concierto in concierto_list%}
         <h2>{{concierto.nombre}}</h2>
         <ul>
