@@ -15,7 +15,9 @@
             <li>Total: {{reserva.importe}}</li>
             <li><a href="{%url 'concierto_detail' pk=reserva.concierto_reserva.pk%}">Enlace para más detalles del concierto</a> </li>
             <!--Aquí debería de haber un if el concierto ya ha pasado, deja tu review. Pero no podría enseñarlo-->
+            {%if reserva.concierta_reserva.fecha < date.today%}
             <li>Deja <a href="{%url 'concierto_review' pk=reserva.concierto_reserva.pk%}">aquí</a> tu opinión de qué te ha parecido</li>
+            {%endif%}
         </ul>
         {%endfor%}
     </div>

@@ -26,6 +26,13 @@
         </ul>
         {%endfor%}
 
+        {% if user.is_authenticated %}
+        <br>
+        <a href="{% url 'listar_reservas_usuario' %}" class="btn btn-primary mt-2">Reservas del ususario</a>
+        <br>
+        {%endif%}
+        <a href="{%url 'concierto_top_ventas'%}" class="btn btn-primary mt-2">Conciertos más vendidos</a>
+
         {%if user.is_staff%}
         <h2>(Solo visible para staff)Conciertos pasados:</h2>
         {%for concierto in conciertosPasados%}
@@ -42,18 +49,11 @@
         
         
         {%endfor%}
-        {%endif%}
-        {% if user.is_staff %}
         <a href="{% url 'concierto_create' %}" class="btn btn-primary mt-2">Añadir Concierto</a>
         <br>
         <a href="{%url 'artista_create'%}" class="btn btn-primary mt-2">Añadir Artista</a>
         {%endif%}
-        {%if user%}
-        <br>
-        <a href="{% url 'listar_reservas_usuario' %}" class="btn btn-primary mt-2">Reservas del ususario</a>
-        <br>
-        <a href="{%url 'concierto_top_ventas'%}" class="btn btn-primary mt-2">Conciertos más vendidos</a>
-        {%endif%}
+        
     </div>
 </div>
 {% endblock %}
