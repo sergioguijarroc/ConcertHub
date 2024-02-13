@@ -22,15 +22,15 @@
         
         {%endfor%}
         {% if user.is_staff %}
-        <a href="{% url 'concierto_create' %}" class="btn btn-primary">Añadir Concierto</a>
+        <a href="{% url 'concierto_create' %}" class="btn btn-primary mt-2">Añadir Concierto</a>
         <br>
-        <a href="{%url 'artista_create'%}" class="btn btn-primary my-2">Añadir Artista</a>
+        <a href="{%url 'artista_create'%}" class="btn btn-primary mt-2">Añadir Artista</a>
         {%endif%}
         {%if user%}
         <br>
-        <a href="{% url 'listar_reservas_usuario' %}" class="btn btn-primary">Reservas del ususario</a>
+        <a href="{% url 'listar_reservas_usuario' %}" class="btn btn-primary mt-2">Reservas del ususario</a>
         <br>
-        <a href="{%url 'concierto_top_ventas'%}" class="btn btn-primary">Conciertos más vendidos</a>
+        <a href="{%url 'concierto_top_ventas'%}" class="btn btn-primary mt-2">Conciertos más vendidos</a>
         {%endif%}
     </div>
 </div>

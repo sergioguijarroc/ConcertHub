@@ -127,17 +127,13 @@ class ListarConciertosMasVendidos(ListView):
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        top_conciertos_ventas = (
-            Reserva.objects.values(
-                "concierto_reserva"
-            )  # Accedo a todas las reservas y obtengo el valor de concierto_reserva de cada uno
-            .annotate(
-                sum_compras=Sum("cantidad_tickets")
-            )  # Sumo la cantidad de tickets de cada concierto
-            .order_by("-sum_compras")[
-                :3
-            ]  # Ordeno de mayor a menor (con el -) y me quedo con los 3 primeros
-        )
+        top_conciertos_ventas = Reserva.objects.annotate(
+            sum_compras=Sum("cantidad_tickets")
+        ).order_by(  # Sumo la cantidad de tickets de cada concierto
+            "-sum_compras"
+        )[
+            :3
+        ]  # Ordeno de mayor a menor (con el -) y me quedo con los 3 primeros
         context["conciertos_top_ventas"] = top_conciertos_ventas
         return context
 

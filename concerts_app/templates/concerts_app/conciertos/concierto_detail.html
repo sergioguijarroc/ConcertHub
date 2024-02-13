@@ -12,7 +12,9 @@
             <li>Precio de entrada:{{concierto.precio_entrada}}</li>
             <li>Artista:{{concierto.artista_concierto}}<a href="{%url 'artista_detail' concierto.artista_concierto.pk%}">Más info del artista</a></li>
             <li>Ubicación:{{concierto.ubicacion_concierto}}</li>
+            {%if concierto.valoracion_media%}
             <li>Valoración: {{concierto.valoracion_media}}</li>
+            {%endif%}
             {%if concierto.boletos_disponibles > 0%}
                 {%if concierto.foto%}
                 <img src="{{concierto.foto.url}}" alt="">
