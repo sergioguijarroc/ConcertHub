@@ -69,15 +69,7 @@ class ConciertoDeleteView(DeleteView):
 
 class ConciertoUpdateView(UpdateView):
     model = Concierto
-    fields = [
-        "nombre",
-        "artista_concierto",
-        "ubicacion_concierto",
-        "fecha",
-        "precio_entrada",
-        "descripcion",
-        "foto",
-    ]
+    form_class = ConciertoForm
     success_url = reverse_lazy("concierto_list")
     template_name = "concerts_app/conciertos/concierto_update.html"
 
