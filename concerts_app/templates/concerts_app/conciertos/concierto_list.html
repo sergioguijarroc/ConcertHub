@@ -1,59 +1,74 @@
-{%extends 'concerts_app/base.html'%}
-{%block title%}
+{% extends 'concerts_app/base.html' %}
+{% block title %}
     Lista de conciertos
-{%endblock%}
-{%block content%}
+{% endblock %}
+{% block content %}
 <div class="row">
     <div class="col">
-        <form action="" method = "GET">
+        <h1 class="text-center my-5 text-white">Bienvenido a ConcertHub{% if request.user.is_authenticated %},{{request.user.username}}{%endif%}</h1>
+        <form action="" method="GET">
             {% csrf_token %}
-            {{form.as_p}}
-            <input type="submit" value="Filtrar">
-            
+            {{ form.as_p }}
+            <input type="submit" value="Filtrar" class="btn btn-primary mt-3">
         </form>
-        <h2>Próximos conciertos:</h2>
-        {%for concierto in conciertosFuturos%}
-        <h3>{{concierto.nombre}}</h3>
-        <ul>
-            <li>Artista:{{concierto.artista_concierto}}</li>
-            <li>Fecha:{{concierto.fecha}}</li>
-            <li>Precio:{{concierto.precio_entrada}}€</li>
-            <li><a href="{%url 'concierto_detail' pk=concierto.pk%}" class="btn btn-primary mb-3">Enlace para más detalles</a> </li>
-            {%if user.is_staff%}
-            <li><a href="{%url 'concierto_delete' pk=concierto.pk%} " class="btn btn-primary mb-3">Borrar</a></li>
-            <li><a href="{%url 'concierto_update' pk=concierto.pk%}" class="btn btn-primary">Editar concierto</a></li>
-            {%endif%}
-        </ul>
-        {%endfor%}
+        <h2 class="mt-5 mb-4">Próximos conciertos:</h2>
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            {% for concierto in conciertosFuturos %}
+            <div class="col">
+                <div class="card h-100" style="background-color: #24243e; border-radius: 10px; border: none;">
+                    <img src="{{ concierto.foto.url }}" class="card-img-top" alt="Concierto Image" style="border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                    <div class="card-body">
+                        <h5 class="card-title text-white">{{ concierto.nombre }}</h5>
+                        <p class="card-text text-white mb-1"><i class="bi bi-person"></i> Artista: {{ concierto.artista_concierto }}</p>
+                        <p class="card-text text-white mb-1"><i class="bi bi-calendar"></i> Fecha: {{ concierto.fecha }}</p>
+                        <p class="card-text text-white mb-1"><i class="bi bi-geo-alt"></i> Ubicación: {{ concierto.ubicacion_concierto }}</p>
+                        <p class="card-text text-white mb-3"><i class="bi bi-cash"></i> Precio: {{ concierto.precio_entrada }}€</p>
+                        <a href="{% url 'concierto_detail' pk=concierto.pk %}" class="btn btn-primary">Detalles</a>
+                        {% if user.is_staff %}
+                            <a href="{% url 'concierto_delete' pk=concierto.pk %}" class="btn btn-danger">Borrar</a>
+                            <a href="{% url 'concierto_update' pk=concierto.pk %}" class="btn btn-warning">Editar</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
 
         {% if user.is_authenticated %}
         <br>
-        <a href="{% url 'listar_reservas_usuario' %}" class="btn btn-primary mt-2">Reservas del ususario</a>
+        <a href="{% url 'listar_reservas_usuario' %}" class="btn btn-primary mt-3">Reservas del usuario</a>
         <br>
-        {%endif%}
-        <a href="{%url 'concierto_top_ventas'%}" class="btn btn-primary mt-2">Conciertos más vendidos</a>
+        {% endif %}
+        <a href="{% url 'concierto_top_ventas' %}" class="btn btn-primary mt-3">Conciertos más vendidos</a>
 
-        {%if user.is_staff%}
-        <h2>(Solo visible para staff)Conciertos pasados:</h2>
-        {%for concierto in conciertosPasados%}
-        <h2>{{concierto.nombre}}</h2>
-        <ul>
-            <li>Artista:{{concierto.artista_concierto}}</li>
-            <li>Fecha:{{concierto.fecha}}</li>
-            <li>Precio:{{concierto.precio_entrada}}€</li>
-            <li><a href="{%url 'concierto_detail' pk=concierto.pk%}" class="btn btn-primary mb-3">Enlace para más detalles</a> </li>
-            <li><a href="{%url 'concierto_delete' pk=concierto.pk%} " class="btn btn-primary mb-3">Borrar</a></li>
-            <li><a href="{%url 'concierto_update' pk=concierto.pk%}" class="btn btn-primary">Editar concierto</a></li>
-        </ul>
+        {% if user.is_staff %}
+        <h2 class="mt-5 mb-4">(Solo visible para staff) Conciertos pasados:</h2>
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            {% for concierto in conciertosPasados %}
+            <div class="col">
+                <div class="card h-100" style="background-color: #24243e; border-radius: 10px; border: none;">
+                    <img src="{{ concierto.foto.url }}" class="card-img-top" alt="Concierto Image" style="border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                    <div class="card-body">
+                        <h5 class="card-title text-white">{{ concierto.nombre }}</h5>
+                        <p class="card-text text-white mb-1"><i class="bi bi-person"></i> Artista: {{ concierto.artista_concierto }}</p>
+                        <p class="card-text text-white mb-1"><i class="bi bi-calendar"></i> Fecha: {{ concierto.fecha }}</p>
+                        <p class="card-text text-white mb-1"><i class="bi bi-geo-alt"></i> Ubicación: {{ concierto.ubicacion_concierto }}</p>
+                        <p class="card-text text-white mb-3"><i class="bi bi-cash"></i> Precio: {{ concierto.precio_entrada }}€</p>
+                        <a href="{% url 'concierto_detail' pk=concierto.pk %}" class="btn btn-primary">Detalles</a>
+                        {% if user.is_staff %}
+                            <a href="{% url 'concierto_delete' pk=concierto.pk %}" class="btn btn-danger">Borrar</a>
+                            <a href="{% url 'concierto_update' pk=concierto.pk %}" class="btn btn-warning">Editar</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
 
-        
-        
-        {%endfor%}
-        <a href="{% url 'concierto_create' %}" class="btn btn-primary mt-2">Añadir Concierto</a>
+        <a href="{% url 'concierto_create' %}" class="btn btn-primary mt-5">Añadir Concierto</a>
         <br>
-        <a href="{%url 'artista_create'%}" class="btn btn-primary mt-2">Añadir Artista</a>
-        {%endif%}
-        
+        <a href="{% url 'artista_create' %}" class="btn btn-primary mt-3">Añadir Artista</a>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
