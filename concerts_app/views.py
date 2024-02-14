@@ -1,4 +1,5 @@
 from datetime import date
+from datetime import datetime
 from typing import Any
 from django.db.models.query import QuerySet
 from django.http import HttpRequest, HttpResponse
@@ -42,34 +43,44 @@ class ConciertoListView(ListView):
     form_class = ConciertoFiltroFrom
     queryset = Concierto.objects.all()
 
+    # queryset = Concierto.objects.filter(fecha__gt=datetime.now())
+
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        context["form"] = self.form_class(
+        form = self.form_class(
             self.request.GET
         )  # Esto es para que nos venga relleno el formulario
-        context["conciertosFuturos"] = Concierto.objects.filter(
-            fecha__gt=date.today()
-        )  # Estos los verá el usuario y el staff
-        context["conciertosPasados"] = Concierto.objects.filter(
-            fecha__lt=date.today()
-        )  # Estos solo los verá el staff
-        return context
-
-    def get_queryset(self) -> QuerySet[Any]:
-        form = self.form_class(self.request.GET)
+        context["form"] = form
         if form.is_valid():
-            nombreConcierto = form.cleaned_data["nombreConcierto"]
-            artista = form.cleaned_data["artista"]
-            ubicacion = form.cleaned_data["ubicacion_concierto"]
+            nombreConcierto = form.cleaned_data.get("nombreConcierto")
+            artista = form.cleaned_data.get("artista")
+            ubicacion = form.cleaned_data.get("ubicacion_concierto")
 
-            if nombreConcierto:
-                self.queryset = self.queryset.filter(nombre__icontains=nombreConcierto)
-            if artista:
-                self.queryset = self.queryset.filter(artista_concierto=artista)
-            if ubicacion:
-                self.queryset = self.queryset.filter(ubicacion_concierto=ubicacion)
+            conciertosFuturos = self.queryset.filter(fecha__gt=datetime.now())
+            conciertosPasados = self.queryset.filter(fecha__lt=datetime.now())
 
-        return super().get_queryset()
+            if nombreConcierto != "":
+                conciertosFuturos = conciertosFuturos.filter(
+                    nombre__icontains=nombreConcierto
+                )
+                conciertosPasados = conciertosPasados.filter(
+                    nombre__icontains=nombreConcierto
+                )
+
+            if artista is not None:
+                conciertosFuturos = conciertosFuturos.filter(artista_concierto=artista)
+                conciertosPasados = conciertosPasados.filter(artista_concierto=artista)
+            if ubicacion is not None:
+                conciertosFuturos = conciertosFuturos.filter(
+                    ubicacion_concierto=ubicacion
+                )
+                conciertosPasados = conciertosPasados.filter(
+                    ubicacion_concierto=ubicacion
+                )
+
+            context["conciertosFuturos"] = conciertosFuturos
+            context["conciertosPasados"] = conciertosPasados
+        return context
 
 
 class ConciertoDetailView(DetailView):
