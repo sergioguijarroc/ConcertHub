@@ -2,10 +2,13 @@
 {% block title %}
     Lista de conciertos
 {% endblock %}
+
+{% endif %}
 {% block content %}
 <div class="row">
     <div class="col">
         <h1 class="text-center my-5 text-white">Bienvenido a ConcertHub{% if request.user.is_authenticated %},{{request.user.username}}{%endif%}</h1>
+
         <form action="" method="GET">
             {% csrf_token %}
             {{ form.as_p }}

@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-bs-theme="dark">
 
 <head>
     <meta charset="UTF-8">
@@ -27,6 +27,7 @@
             <a href="{%url 'logout' %}" class="btn btn-outline-light">Cerrar Sesión</a>
             {%else%}
             <a href="{%url 'login' %}" class="btn btn-outline-light">Iniciar Sesión</a>
+            <a href="{%url 'register'%}" class="btn btn-outline-light">Registrate</a>
             {%endif%}
           </a>
         </div>

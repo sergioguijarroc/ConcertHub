@@ -4,6 +4,9 @@ from django.views import View
 from django.views.generic import DetailView, ListView
 from concerts_app.models import Concierto
 from tickets_app.models import Reserva
+from .forms import RegisterForm
+from django.contrib.auth import login
+from django.contrib import messages
 
 # Create your views here.
 
@@ -14,3 +17,16 @@ class ListarReservasUsuario(View):
         return render(
             request, "users_app/concierto_usuario_list.html", {"reservas": reservas}
         )
+
+
+def register(request):
+
+    if request.method == "POST":
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect("concierto_list")
+    else:
+        form = RegisterForm()
+    return render(request, "users_app/register.html", {"form": form})
