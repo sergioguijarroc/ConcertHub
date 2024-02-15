@@ -55,6 +55,7 @@ class ConciertoListView(ListView):
             nombreConcierto = form.cleaned_data.get("nombreConcierto")
             artista = form.cleaned_data.get("artista")
             ubicacion = form.cleaned_data.get("ubicacion_concierto")
+            fecha_ascendente = form.cleaned_data.get("fecha_ascendente")
 
             conciertosFuturos = self.queryset.filter(fecha__gt=datetime.now())
             conciertosPasados = self.queryset.filter(fecha__lt=datetime.now())
@@ -77,6 +78,9 @@ class ConciertoListView(ListView):
                 conciertosPasados = conciertosPasados.filter(
                     ubicacion_concierto=ubicacion
                 )
+            if fecha_ascendente:
+                conciertosFuturos = conciertosFuturos.order_by("fecha")
+                conciertosPasados = conciertosPasados.order_by("fecha")
 
             context["conciertosFuturos"] = conciertosFuturos
             context["conciertosPasados"] = conciertosPasados

@@ -104,3 +104,8 @@ class ConciertoFiltroFrom(forms.Form):
         empty_label="Todas las ubicaciones",
         widget=forms.Select(attrs={"class": "form-control"}),
     )
+    fecha_ascendente = forms.BooleanField(
+        required=False,
+        label="Ordenar por fecha más próxima",
+        widget=forms.CheckboxInput(attrs={"class": "form-check-input"}),
+    )
