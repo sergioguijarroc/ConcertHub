@@ -11,11 +11,11 @@
                 <tr>
                     <th>Concierto</th><th>Artista</th><th>Número de entradas vendidas</th>
                 </tr>
-                {% for venta in conciertos_top_ventas %}
+                {% for concierto in conciertos_top_ventas %}
                     <tr>
-                        <td>{{ venta.concierto_reserva.nombre }}</td>
-                        <td>{{ venta.concierto_reserva.artista_concierto.nombre }}</td>
-                        <td>{{ venta.sum_compras }}</td>
+                        <td>{{ concierto.nombre }}</td>
+                        <td>{{ concierto.artista_concierto.nombre }}</td>
+                        <td>{{ concierto.sum_compras }}</td>
                     </tr>
                 {% endfor %}
             </table>

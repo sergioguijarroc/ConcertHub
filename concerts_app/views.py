@@ -161,13 +161,13 @@ class ConciertoReview(View):
 
 
 class ListarConciertosMasVendidos(ListView):
-    model = Reserva
+    model = Concierto
     template_name = "concerts_app/conciertos/concierto_top_ventas.html"
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        top_conciertos_ventas = Reserva.objects.annotate(
-            sum_compras=Sum("cantidad_tickets")
+        top_conciertos_ventas = Concierto.objects.annotate(
+            sum_compras=Sum("reserva__cantidad_tickets")
         ).order_by(  # Sumo la cantidad de tickets de cada concierto
             "-sum_compras"
         )[

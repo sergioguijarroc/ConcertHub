@@ -42,16 +42,16 @@ class Concierto(models.Model):
     valoracion_media = models.FloatField(blank=True, null=True, default=None)
 
     def actualizar_valoracion_media(self):
-        # Obtengo todas las valoraciones asociadas al libro
+        # Obtengo todas las valoraciones asociadas al concierto
         reviews = Valoracion.objects.filter(reserva_valoracion__concierto_reserva=self)
 
         # Calculo el promedio de las valoraciones
         avg_rating = reviews.aggregate(Avg("rating"))["rating__avg"]
-        # Actualizo la valoración media del libro
+        # Actualizo la valoración media del concierto
         if avg_rating is not None:
             self.valoracion_media = avg_rating
 
-        # Guardo el libro actualizado
+        # Guardo el concierto actualizado
         self.save()
 
     def __str__(self):

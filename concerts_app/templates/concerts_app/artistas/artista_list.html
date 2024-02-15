@@ -5,20 +5,28 @@
 {%block content%}
 <div class="row">
     <div class="col">
-        {%for concierto in concierto_list%}
-        <h2>{{concierto.nombre}}</h2>
-        <ul>
-            <li>Artista:{{artista.nombre}}</li>
-            <li>Foto:{{artista.foto}}</li>
-            <li>Precio:{{concierto.precio_entrada}}€</li>
-            <li><a href="{%url 'artista_detail' pk=artista.pk%}">Enlace para más detalles</a> </li>
-            {%if user.is_staff%}
-            <li><a href="{%url 'artista_delete' pk=artista.pk%}">Borrar</a></li>
-            <li><a href="{%url 'artista_update' pk=artista.pk%}"></a></li>
-            {%endif%}
-        </ul>
-        
-        {%endfor%}
+        <h2 class="text-center my-5">Nuestros artistas</h2>
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            {% for artista in artista_list %}
+            <div class="col">
+                <div class="card h-75" style="background-color: #24243e; border-radius: 10px; border: none;">
+                    <img src="{{ artista.foto.url }}" class="card-img-top h-50" alt="Concierto Image" style="border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                    <div class="card-body">
+                        <h5 class="card-title text-white">{{ artista.nombre }}</h5>
+                        <!--Genero del artista-->
+                        <p class="card-text text-white mb-1"><i class="bi bi-music-note"></i> Género: {{ artista.genero }}</p>
+                        <!--Descripcion del artista-->
+                        <p class="card-text text-white mb-3">Descripción : {{ artista.descripcion }}</p>
+                        <a href="{% url 'artista_detail' pk=artista.pk %}" class="btn btn-primary">Detalles</a>
+                        {% if user.is_staff %}
+                            <a href="{% url 'artista_delete' pk=artista.pk %}" class="btn btn-danger">Borrar</a>
+                            <a href="{% url 'artista_update' pk=artista.pk %}" class="btn btn-warning">Editar</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
 
         {% if user.is_staff %}
         <a href="{%url 'artista_create' %}">Añadir un Artista</a>
