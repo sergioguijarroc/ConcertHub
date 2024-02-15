@@ -26,8 +26,9 @@
             <a href="{%url 'listar_reservas_usuario' %}" class="btn btn-outline-light">Mis Reservas</a>
             <a href="{%url 'logout' %}" class="btn btn-outline-light">Cerrar Sesión</a>
             {%else%}
-            <a href="{%url 'login' %}" class="btn btn-outline-light">Iniciar Sesión</a>
             <a href="{%url 'register'%}" class="btn btn-outline-light">Registrate</a>
+            <a href="{%url 'login' %}" class="btn btn-outline-light">Iniciar Sesión</a>
+            
             {%endif%}
           </a>
         </div>
