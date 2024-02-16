@@ -14,13 +14,9 @@
             <li>Número de tickets comprados: {{ reserva.cantidad_tickets }}</li>
             <li>Total: {{ reserva.importe }}</li>
             <li><a href="{% url 'concierto_detail' pk=reserva.concierto_reserva.pk %}">Enlace para más detalles del concierto</a></li>
-            {% with fecha_actual|date:"Y-m-d H:i:s" as actual_date %} <!--Convierto la fecha actual a un formato que pueda comparar con la fecha del concierto-->
-            {% with reserva.concierto_reserva.fecha|date:"Y-m-d H:i:s" as concierto_date %}<!--Convierto la fecha del concierto a un formato que pueda comparar con la fecha actual-->
-            {% if concierto_date < actual_date %}
+            {% if reserva.concierto_reserva.fecha < fecha_actual %} 
             <li>Deja <a href="{% url 'concierto_review' pk=reserva.concierto_reserva.pk %}">aquí</a> tu opinión de qué te ha parecido</li>
             {% endif %}
-            {% endwith %}
-            {% endwith %}
             
         </ul>
         {% endfor %}

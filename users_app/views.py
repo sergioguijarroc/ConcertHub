@@ -8,6 +8,7 @@ from tickets_app.models import Reserva
 from .forms import RegisterForm
 from django.contrib.auth import login
 from django.contrib import messages
+from django.utils import timezone
 
 # Create your views here.
 
@@ -15,7 +16,8 @@ from django.contrib import messages
 class ListarReservasUsuario(View):
     def get(self, request):
         reservas = Reserva.objects.filter(cliente_reserva=self.request.user)
-        fecha_actual = datetime.now()
+        # fecha_actual = datetime.now()
+        fecha_actual = timezone.now()
         return render(
             request,
             "users_app/concierto_usuario_list.html",
