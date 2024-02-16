@@ -135,23 +135,29 @@ class ConciertoReview(View):
         )
 
     def post(self, request, pk):
-        reserva = Reserva.objects.get(pk=pk)
+        reserva = Reserva.objects.filter(
+            concierto_reserva__pk=pk, cliente_reserva=self.request.user
+        ).first()
         concierto = Concierto.objects.get(pk=reserva.concierto_reserva.pk)
         valoracionUsuario = float(request.POST["valoracion"])
 
         if (
-            # reserva.cliente_reserva == request.user and
+            # reserva.cliente_reserva == self.request.user
             valoracionUsuario >= 0
             and valoracionUsuario <= 10
         ):
-            if reserva.valoracion_usuario is not None:
+            if (
+                reserva.valoracion_usuario is not None
+                and reserva.valoracion_usuario__usuario_valoracion
+                == reserva.cliente_reserva
+            ):
                 reserva.valoracion_usuario.actualizar_rating(valoracionUsuario)
                 reserva.valoracion_usuario.save()
                 reserva.save()
             else:
                 valoracion = Valoracion.objects.create(
                     reserva_valoracion=reserva,
-                    usuario_valoracion=request.user,
+                    usuario_valoracion=self.request.user,
                     rating=valoracionUsuario,
                 )
                 reserva.valoracion_usuario = valoracion

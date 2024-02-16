@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import Cliente, Staff
+from .models import Cliente, Staff, Usuario
 
 
 class CustomCliente(UserAdmin):
@@ -24,11 +24,6 @@ class CustomCliente(UserAdmin):
             {"fields": ("direccion", "edad", "telefono")},
         ),
     )
-
-    def save_model(self, request, obj, form, change):
-        # Establecer staff_status en False para clientes
-        obj.staff_status = False
-        super().save_model(request, obj, form, change)
 
 
 class CustomStaff(UserAdmin):
@@ -59,5 +54,6 @@ class CustomStaff(UserAdmin):
         super().save_model(request, obj, form, change)
 
 
+admin.site.register(Usuario, UserAdmin)
 admin.site.register(Cliente, CustomCliente)
 admin.site.register(Staff, CustomStaff)
