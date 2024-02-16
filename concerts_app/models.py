@@ -38,7 +38,7 @@ class Concierto(models.Model):
     precio_entrada = models.DecimalField(max_digits=10, decimal_places=2)
     boletos_disponibles = models.PositiveIntegerField(default=0)
     descripcion = models.TextField()
-    foto = models.ImageField(upload_to="conciertos", null=True, blank=True)
+    foto = models.ImageField(upload_to="conciertos")
     valoracion_media = models.FloatField(blank=True, null=True, default=None)
 
     def actualizar_valoracion_media(self):
