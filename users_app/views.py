@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views import View
@@ -14,8 +15,11 @@ from django.contrib import messages
 class ListarReservasUsuario(View):
     def get(self, request):
         reservas = Reserva.objects.filter(cliente_reserva=self.request.user)
+        fecha_actual = datetime.now()
         return render(
-            request, "users_app/concierto_usuario_list.html", {"reservas": reservas}
+            request,
+            "users_app/concierto_usuario_list.html",
+            {"reservas": reservas, "fecha_actual": fecha_actual},
         )
 
 

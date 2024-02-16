@@ -1,25 +1,29 @@
-{%extends 'concerts_app/base.html'%}
-{%block title%}
+{% extends 'concerts_app/base.html' %}
+{% block title %}
     Lista de Reservas del usuario
-{%endblock%}
-{%block content%}
+{% endblock %}
+{% block content %}
 <div class="row">
     <div class="col">
-        <h2>Todas las reservas de {{request.user.username}}</h2>
-        {%for reserva in reservas%}
-        <h2>{{reserva.concierto_reserva.nombre}}</h2>
+        <h2>Todas las reservas de {{ request.user.username }}</h2>
+        {% for reserva in reservas %}
+        <h2>{{ reserva.concierto_reserva.nombre }}</h2>
         <ul>
-            <li>Fecha:{{reserva.concierto_reserva.fecha}}</li>
-            <li>Precio:{{reserva.concierto_reserva.precio_entrada}}€</li>
-            <li>Número de tickets comprados: {{reserva.cantidad_tickets}}</li>
-            <li>Total: {{reserva.importe}}</li>
-            <li><a href="{%url 'concierto_detail' pk=reserva.concierto_reserva.pk%}">Enlace para más detalles del concierto</a> </li>
-            <!--Aquí debería de haber un if el concierto ya ha pasado, deja tu review. Pero no podría enseñarlo-->
-            {%if reserva.concierta_reserva.fecha < date.today%}
-            <li>Deja <a href="{%url 'concierto_review' pk=reserva.concierto_reserva.pk%}">aquí</a> tu opinión de qué te ha parecido</li>
-            {%endif%}
+            <li>Fecha: {{ reserva.concierto_reserva.fecha }}</li>
+            <li>Precio: {{ reserva.concierto_reserva.precio_entrada }}€</li>
+            <li>Número de tickets comprados: {{ reserva.cantidad_tickets }}</li>
+            <li>Total: {{ reserva.importe }}</li>
+            <li><a href="{% url 'concierto_detail' pk=reserva.concierto_reserva.pk %}">Enlace para más detalles del concierto</a></li>
+            {% with fecha_actual|date:"Y-m-d H:i:s" as actual_date %} <!--Convierto la fecha actual a un formato que pueda comparar con la fecha del concierto-->
+            {% with reserva.concierto_reserva.fecha|date:"Y-m-d H:i:s" as concierto_date %}<!--Convierto la fecha del concierto a un formato que pueda comparar con la fecha actual-->
+            {% if concierto_date < actual_date %}
+            <li>Deja <a href="{% url 'concierto_review' pk=reserva.concierto_reserva.pk %}">aquí</a> tu opinión de qué te ha parecido</li>
+            {% endif %}
+            {% endwith %}
+            {% endwith %}
+            
         </ul>
-        {%endfor%}
+        {% endfor %}
     </div>
 </div>
-{%endblock%}
+{% endblock %}
